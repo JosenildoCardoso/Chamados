@@ -1,0 +1,158 @@
+
+@media screen and (min-width: 350px) and (max-width: 1000px) {
+	.fundst{
+		font-size: 1.8vw;
+	}
+		.wdst{
+		flex-basis: 26%;
+	}
+		.wdinf{
+		flex-basis: 74%;
+	}
+	.obssol{
+		min-height: 7vw;
+	}
+.icpab{
+	background-position: top 2px right 1vw;
+}
+
+
+.ipdabr{
+	background-position: top 2px right 1vw;
+}
+
+.ipdctr{
+	background-position: top -97px right 1vw;
+}
+.ipdectr{
+	background-position: top 49% right 1vw;
+}
+
+.ipdapr{
+	background-position: top 66% right 1vw;
+}
+
+.ipdcpr{
+	background-position: top 31% right 1vw;
+}
+.ipdcpok{
+	background-position: top 84.5% right 1vw;
+}
+.ipdrec{
+	background-position: top 100.8% right 1vw;
+}
+
+.ipdcanr{
+	background-position: top 15%  right 1vw;
+}
+}
+
+@media screen and (min-width: 1001px) and (max-width: 1920px) {
+		.fundst{
+		font-size: 12px;;
+	}
+		.wdst{
+		flex-basis: 18%;
+	}
+			.wdinf{
+		flex-basis: 82%;
+	}
+		.obssol{
+		min-height: 36px;
+	}
+	.icpab{
+	background-position: top 2px right 10px;
+}
+
+
+.ipdabr{
+	background-position: top 2px right 10px;
+}
+
+.ipdctr{
+	background-position: top -97px right 10px;
+}
+.ipdectr{
+	background-position: top -71px right 10px;
+}
+
+.ipdapr{
+	background-position: top -97px right 10px;
+}
+
+.ipdcpr{
+	background-position: top -46px right 10px;
+}
+.ipdcpok{
+	background-position: top -123px right 10px;
+}
+.ipdrec{
+	background-position: top -149px right 10px;
+}
+
+.ipdcanr{
+	background-position: top -22px  right 10px;
+}
+	
+}
+
+
+.itsol{
+margin-bottom: 10px;
+font-size: 14px;
+display: flex;
+flex-basis: 100%;
+flex-wrap: wrap;
+border: 1px solid #c7dedf;
+border-left: 4px solid #c7dedf;
+
+	
+}
+
+.itsol:hover .c_ae{
+	background-color: #b3c9ca;
+}
+.codsol {
+  text-align: center;
+  padding: 4px;
+  font-weight: bold;
+  color: #444;
+  background-color: #c7dedf;
+  font-size: 12px;
+}
+
+.cpbts{
+	
+	text-align: center;
+font-weight: bold;
+background-color: #EDF9F9;
+font-size: 12px;
+color: #477173;
+	align-items: center;
+}
+
+.obssol{
+	flex-basis: 100%;
+background-color: #d8eff0;
+text-align: left;
+	color: #426d6f;
+	
+	
+}
+
+.itsol>div>span{
+	border-bottom: 1px solid #c7dedf;
+	border-right: 1px solid #afcbcc;
+}
+.itsol>div>span:last-child{
+	border-bottom: 1px solid #c7dedf;
+	border-right: none;
+}
+
+.fundst{
+	background-color: #c7dedf;
+	color: #3d5e60;
+	text-align: right;
+	padding: 5px;
+	font-weight: bold;
+}

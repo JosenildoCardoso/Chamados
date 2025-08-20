@@ -1,0 +1,26 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Captura /usuarios/15
+RewriteRule ^([0-9]+)$ index.php?id=$1 [QSA,L]
+# <- for test, for prod use [L,R=301]
+
+#RewriteCond %{HTTPS} off
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+#RewriteCond %{HTTPS} on
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+#RewriteRule ^dispensar$ liberar.php [QSA]
+#RewriteRule ^previsoes$ prev.php [QSA]
+#RewriteRule ^controle$ controle.php [QSA]
+
+
+
+
+#errordocument 404 https://www.saudeulianopolis.com.br/
+
+#RewriteRule ^(.*)$ index.php [L]
+
