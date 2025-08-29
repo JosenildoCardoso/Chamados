@@ -1,5 +1,6 @@
 <?php
 include("../conexao.php");
+include("../config.php");
 $gtm = mysqli_query($conn, "SELECT MAX(matricula)+1 as mat FROM dados");
 $ff = mysqli_fetch_array($gtm);
 $mat = $ff['mat'];
@@ -20,8 +21,8 @@ include("../header.php");
 <div class="container mt-5">
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Configurações</a></li>
-    <li class="breadcrumb-item"><a href="#">Cadastro de Usuários</a></li>
+    <li class="breadcrumb-item"><a href="../pageconfig.php">Configurações</a></li>
+    <li class="breadcrumb-item"><a href="cad.php">Cadastro de Usuários</a></li>
     <li class="breadcrumb-item active" aria-current="page">Adicionar Novo</li>
   </ol>
 </nav>
@@ -34,28 +35,28 @@ include("../header.php");
 </div>
 <div class="col-4">
 <label class='form-label'>Nome*</label>
-<input class="w-100 form-control" autocomplete="off" class="nome" type="text"/>
+<input class="form-control nome" required autocomplete="off" class="nome" type="text"/>
 </div>
 <div class="col-2">
 <label class='form-label'>CPF</label>
 <input autocomplete="off" class='form-control cpf' maxlength="11" type="text"/>
 </div>
 <div class="col-3">
-<label class='form-label'>Funcao</label>
-<input id="funcao" class="form-control"  class="funcao" type="text"/>
+<label class='form-label'>Função</label>
+<input id="funcao" class="form-control funcao"  type="text"/>
 </div>
 <div class="col-2">
 <label class='form-label'>Login*</label>
-<input autocomplete="off" class='form-control'  data-ant="" onblur="getLoginCad(this)"  class="login" type="text"/>
+<input autocomplete="off" class='form-control login' required  data-ant="" onblur="getLoginCad(this)"  type="text"/>
 </div>
 	</div>
 
-<div class="row" >
-<div class="col-4">
-<label class='form-label'>E-mail</label>
-<input type="text" class='form-control email'/>
-</div>
+<div class="row mt-3" >
 <div class="col-3">
+<label class='form-label'>E-mail</label>
+<input type="email" class='form-control email'/>
+</div>
+<div class="col-4">
 <label class='form-label'>Setor</label>
 <select onChange="getDep()" class='form-select setor'>
 <?php
@@ -78,10 +79,10 @@ echo "<option value='$cod'>$desc</option>";
 </div>
 	<div class="col-2">
 <label class='form-label'>Acesso</label>
-<select id="acesso" name="acesso" onChange="cAcesso()" class="form-select">
+<select  class="form-select acesso">
 <?php
 
-	$sets = mysqli_query($conn, "SELECT cod, descricao FROM acessos_chamados ORDER BY cod ASC");	
+	$sets = mysqli_query($conn, "SELECT cod, descricao FROM tipo_acesso_$systemName ORDER BY cod ASC");	
 
 while ($ls = mysqli_fetch_array($sets)){
 	$cod = $ls['cod'];
@@ -97,26 +98,29 @@ echo "<option value='$cod'>$desc</option>";
 </div>
 
 
-	<div class='row' >
-		<span class='form-label' >Área de Administração</span>
-<div class='col-6'>
+<div class='gparea row mt-3 d-none' >
+<span class='form-label' >Área de Atuação</span>
+<div class='col-6 gap-3 d-flex'>
 <?php
-$sl = mysqli_query($conn, "SELECT cod, descricao FROM areas_chamados ORDER BY cod ASC");
+$sl = mysqli_query($conn, "SELECT cod, descricao FROM areas_$systemName ORDER BY cod ASC");
 while($lu = mysqli_fetch_array($sl)){
 $cod = $lu['cod'];
 $desc = $lu['descricao'];
-echo "<span class='itck'><input id='cke-$cod' type='checkbox' name='aest[]' value='$cod' /><label for='cke-$cod'>$desc</label></span>";
+echo "<span class='col-3 mr-3 d-flex gap-2'><input class='ckarea' type='checkbox' name='aest[]' value='$cod' /><label for='cke-$cod'>$desc</label></span>";
 }
 ?>
 </div>
 </div>
 	
 
-<div class="gpbotoes">
-<button id="bts" onclick="valida()" class="btn btn-danger">Salvar</button><a class="btn " href="cad.php">Cancelar</a>
+
 </div>
+<div class="col-12 mt-5 gap-2 d-flex justify-content-center">
+<button type="submit" class="btn btn-primary btn-lg btsend">Salvar</button><button class="btn btn-lg btn-danger" type="reset">Limpar</button><a class="btn btn-lg btn-secondary " href="cad.php">Cancelar</a>
 </div>
 </form>
+
+
 
 </div>
 </div>
@@ -124,6 +128,31 @@ echo "<span class='itck'><input id='cke-$cod' type='checkbox' name='aest[]' valu
 </body>
 <script src="../js/utils.js?v=3665"></script>
 <script>
+let atuacao = document.querySelector('.gparea');
+document.querySelector('.acesso').addEventListener("change", (e) => {
+if(e.target.value > 1){
+	atuacao.classList.remove("d-none");
+	
+}else{
+	atuacao.classList.add("d-none");
+}
+})
+
+
+const formulario = document.querySelector("form");
+formulario.addEventListener("submit", function(e) {
+  e.preventDefault(); // evita envio normal
+
+  const forml = e.target;
+  // força validação do HTML5
+  if (!forml.checkValidity()) {
+    forml.reportValidity(); // mostra mensagens nativas
+    return; // não prossegue se inválido
+  }else{
+	salvaUser();
+  }
+}
+)
 	
 
 	document.querySelector(".cpf").addEventListener("blur", function(event){
@@ -138,7 +167,9 @@ const campos = {
 
 	function salvaUser(){
 
-		
+
+	let ds = confirm("Salvar Usuário?");
+	if(ds){	
 	let form = {
     nome:document.querySelector(".nome").value,
 	cpf:document.querySelector(".cpf").value,
@@ -146,9 +177,15 @@ const campos = {
 	funcao:document.querySelector(".funcao").value,
 	setor:document.querySelector(".setor").value,
 	subsetor:document.querySelector(".subsetor").value,
-	acesso:document.querySelector(".acesso").value
+	acesso:document.querySelector(".acesso").value,
+	email:document.querySelector(".email").value,
+	area:Array.from(document.querySelectorAll(".ckarea")).filter(en => en.checked).map(en => en.value)
 
 	}
+
+	
+
+
 		fetch("../api/usuarios/",{
 			method:'POST',
 			headers: {                    // cabeçalhos da requisição
@@ -158,13 +195,25 @@ const campos = {
 	})
 		.then(response => response.json())
 		.then(dados => {
-			dados.status
+			alert(dados.message);
+			window.location.href = "cad.php";
 		})
 
 	}
+
+
  
 
-	function getDep(){
+
+
+	}
+
+	window.addEventListener("load", function(){
+getDep();
+
+	})
+
+		function getDep(){
 fetch("../api/setores/subsetores/" + campos.setor.value,{
 headers: {                    // cabeçalhos da requisição
     "Content-Type": "application/json"
@@ -173,15 +222,9 @@ headers: {                    // cabeçalhos da requisição
 .then(response => response.json())
 .then(payload => {
 campos.subsetor.innerHTML = "";
-payload.dados.forEach(element => {
-	console.log("RECEBENDO");
-	campos.subsetor.innerHTML += `<option value='${element.cod}'>${element.descricao}</option>`;
-	
-});
+campos.subsetor.innerHTML = payload.dados.map(inf => `<option value='${inf.cod}'>${inf.descricao}</option>`).join("");
 
 })
-
-
 
 
 	}

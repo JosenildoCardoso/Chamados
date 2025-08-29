@@ -8,6 +8,7 @@ include("../conexao.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <title>Usuários</title>
 </head>
 <script>
@@ -47,7 +48,7 @@ echo "<option value='$cod'>$desc</option>";
 ?></select>
 	</div><div class="col-2">
 		<select  onchange="getUsers()" class="tpacesso form-select"><?php
-$uns = mysqli_query($conn, "SELECT cod, descricao FROM acessos_chamados ORDER BY cod ASC");
+$uns = mysqli_query($conn, "SELECT cod, descricao FROM tipo_acesso_chamados ORDER BY cod ASC");
 echo "<option value=''>Filtrar Acesso</option>";	
 while ($ls = mysqli_fetch_array($uns)){
 	$cod = $ls['cod'];
@@ -61,7 +62,7 @@ echo "<option value='$cod'>$desc</option>";
 	<a href="adduser.php" class="btnovo btn btn-success mb-3">Adicionar Novo</a>
 	</div>
 </div>
-<div class='row' style="color:#ccc;"><span class='col-1'>Matrícula</span><span class='col-4'>Nome</span><span class="col-2">Login</span><span class="col-2">Acesso</span><span class="col-2">Setor</span><span class="col-1"></span></div>
+<div class='row bg-secondary' style="color:#ccc;"><span class='col-1'>Matrícula</span><span class='col-4'>Nome</span><span class="col-2">Login</span><span class="col-2">Acesso</span><span class="col-2">Setor</span><span class="col-1"></span></div>
 <div id="listauser" class="lista">
 
 </div>
@@ -99,14 +100,14 @@ if(dados.total != 0){
     dados.dados.forEach(usuario => {
       const item = document.createElement('div');
       item.classList.add('row');
-
+      item.className = "border-bottom row mt-1";
       item.innerHTML = `
-        <span class="col-1">${usuario.matricula}</span>
+        <span class="col-1 bg-light text-center">${usuario.matricula}</span>
         <span class="col-4">${usuario.nome}</span>
-        <span class="col-2">${usuario.login}</span>
+        <span class="col-2 bg-light">${usuario.login}</span>
         <span class="col-2">${usuario.acesso}</span>
-        <span class="col-2">${usuario.setor}</span>
-        <span class="col-1">` + `<a href='editar.php?id=${usuario.matricula}'>Editar</a>` + `<button class='btremove' data-id='${usuario.matricula}'>Excluir</button>` + `<button class='btreset' data-id='${usuario.matricula}'>Resetar</button>` + `</span>`;
+        <span class="col-2 bg-light text-truncate">${usuario.setor}</span>
+        <span class="col-1 gap-1 d-flex">` + `<a class='bi bi-pencil-square' href='editar.php?id=${usuario.matricula}'></a>` + `<button class='btremove border-0 bi bi-trash3-fill' data-id='${usuario.matricula}'></button>` + `<button class='btreset bi bi-arrow-clockwise border-0' data-id='${usuario.matricula}'></button>` + `</span>`;
        
 
       lista.appendChild(item);
