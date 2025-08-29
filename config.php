@@ -1,0 +1,5 @@
+<?php
+$systemName = "chamados";
+$baseDir = "/";
+
+?>
